@@ -13,6 +13,11 @@ export async function createUser(app: FastifyInstance) {
 
     const { name, age, email, password } = createUserBody.parse(req.body);
 
+    if (email) {
+      reply.status(409);
+      throw new Error("Email already exists!");
+    }
+
     const user = await prisma.user.create({
       data: {
         name,
