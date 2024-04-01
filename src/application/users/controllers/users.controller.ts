@@ -1,15 +1,15 @@
 import { FastifyInstance } from "fastify";
 import { createUserSchema } from "../dto/create-user.dto";
-import { CreateUserService } from "../services/create-user.service";
+import { UsersService } from "../services/users.service";
 
-export class CreateUserController {
-  constructor(private readonly createUserService: CreateUserService) {}
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
 
   async createUser(app: FastifyInstance) {
     app.post("/api/users", async (req, reply) => {
       const { name, age, email, password } = createUserSchema.parse(req.body);
 
-      const user = await this.createUserService.create({
+      const user = await this.usersService.create({
         name: name,
         age: age,
         email: email,
