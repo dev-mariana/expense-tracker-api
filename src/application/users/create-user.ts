@@ -1,22 +1,10 @@
 import { FastifyInstance } from "fastify";
-import { z } from "zod";
 import { prisma } from "../../infra/database/prisma";
+import { createUserSchema } from "./dto/create-user.dto";
 
 export async function createUser(app: FastifyInstance) {
   app.post("/api/users", async (req, reply) => {
-    const createUserBody = z.object({
-      name: z.string(),
-      age: z.number(),
-      email: z.string().email().min(6),
-      password: z.string().min(6),
-    });
-
-    const { name, age, email, password } = createUserBody.parse(req.body);
-
-    if (email) {
-      reply.status(409);
-      throw new Error("Email already exists!");
-    }
+    const { name, age, email, password } = createUserSchema.parse(req.body);
 
     const user = await prisma.user.create({
       data: {
@@ -28,6 +16,6 @@ export async function createUser(app: FastifyInstance) {
       },
     });
 
-    return reply.status(201).send({ user });
+    return reply.status(201).send(user);
   });
 }
