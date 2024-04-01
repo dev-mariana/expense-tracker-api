@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { CreateUserDTO, createUserSchema } from "../dto/create-user.dto";
+import { createUserSchema } from "../dto/create-user.dto";
 import { CreateUserService } from "../services/create-user.service";
 
 export class CreateUserController {
@@ -14,7 +14,7 @@ export class CreateUserController {
         age: age,
         email: email,
         password: password,
-      } as CreateUserDTO);
+      });
 
       return reply.status(201).send(user);
     });
