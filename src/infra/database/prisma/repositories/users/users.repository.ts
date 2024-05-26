@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-import { CreateUserDTO } from "../../../../../application/users/dto/create-user.dto";
-import { User } from "../../../../../domain/users/models/user";
-import { IUsersRepository } from "../../../../../domain/users/repositories/users.repository";
+import { PrismaClient } from '@prisma/client';
+import { CreateUserDTO } from '../../../../../application/users/dto/create-user.dto';
+import { User } from '../../../../../domain/users/models/user';
+import { IUsersRepository } from '../../../../../domain/users/repositories/users.repository';
 
 export class UsersRepository implements IUsersRepository {
   constructor(private prisma: PrismaClient) {}
@@ -20,5 +20,9 @@ export class UsersRepository implements IUsersRepository {
     });
 
     return user;
+  }
+
+  async findAll(): Promise<User[]> {
+    return await this.prisma.user.findMany();
   }
 }
