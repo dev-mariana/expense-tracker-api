@@ -17,6 +17,7 @@ const usersController = new UsersController(usersService);
 
 usersController.createUser(app);
 usersController.findUsers(app);
+usersController.findUserByEmail(app);
 
 app.listen({ port: Number(port) }).then(() => {
   console.log('Server is running!');

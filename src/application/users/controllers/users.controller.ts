@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { createUserSchema } from '../dto/create-user.dto';
+import { getUserByEmailSchema } from '../dto/get-user-by-email.dto';
 import { UsersService } from '../services/users.service';
 
 export class UsersController {
@@ -25,6 +26,15 @@ export class UsersController {
       const users = await this.usersService.findAll();
 
       return reply.status(200).send(users);
+    });
+  }
+
+  async findUserByEmail(app: FastifyInstance) {
+    app.get('/api/users/:email', async (req, reply) => {
+      const { email } = getUserByEmailSchema.parse(req.params);
+      const user = await this.usersService.findByEmail(email);
+
+      return reply.status(200).send(user);
     });
   }
 }
